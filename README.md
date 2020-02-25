@@ -13,3 +13,33 @@ Use the commands inside the ./bin directory to perform basic functions
 `enter.sh` will mount the current working directory of this repo into the docker container
 
 `test.sh` will run the unit tests inside the docker container
+
+## Examples
+
+### Create an object that will save and load itself
+
+```python
+from oo_tools.saver import Saver
+
+class MyObj(Saver):
+    name = 'foo'
+
+filepath = '/tmp/myobj.obj'
+
+myojb = MyObj
+myobj.name = 'bar'
+
+myobj.filepath = filepath
+myobj.save()
+
+del myobj
+
+myobj2 = MyObj()
+myobj2.filepath = filepath
+
+myobj2.name # equals 'foo'
+
+myobj2.load()
+
+myobj2.name # now equals 'bar' from save file
+```
