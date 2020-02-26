@@ -16,10 +16,10 @@ Use the commands inside the ./bin directory to perform basic functions
 
 ## Examples
 
-### Create an object that will save and load itself
+### Create an object that can save and load itself
 
 ```python
-from oo_tools.saver import Saver
+from oo_tools.save import Saver
 
 class MyObj(Saver):
     name = 'foo'
@@ -32,7 +32,7 @@ myobj.name = 'bar'
 myobj.filepath = filepath
 myobj.save()
 
-del myobj
+del myobj # delete it from memory
 
 myobj2 = MyObj()
 myobj2.filepath = filepath
