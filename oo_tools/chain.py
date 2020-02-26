@@ -32,6 +32,12 @@ class Link(BaseChainComponent):
         
     @next.setter
     def next(self, next_chain_component: BaseChainComponent):
+        """
+        Next component in the chain
+        
+        Raises:
+            TypeError: is not a subclass of BaseChainComponent
+        """
         try:
             if not isinstance(next_chain_component, BaseChainComponent):
                 raise TypeError
@@ -41,4 +47,7 @@ class Link(BaseChainComponent):
             raise TypeError(f'next_chain_component must be a BaseChainComponent subclass, not = {type(next_chain_component)}')
 
     def do_next(self, *args, **kwargs):
+        """
+        Call the next component in the chain
+        """
         self.next.process(*args, **kwargs)
