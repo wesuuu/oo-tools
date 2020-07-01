@@ -5,7 +5,7 @@ from setuptools import setup
 
 setup(
     name="oo-tools",
-    version='0.1.0',
+    version='0.2.0',
     url="",
     author="Wesley Uykimpang",
     description="Some object-oriented classes + utilities for python",

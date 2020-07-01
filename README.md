@@ -19,14 +19,14 @@ Use the commands inside the ./bin directory to perform basic functions
 ### Create an object that can save and load itself
 
 ```python
-from oo_tools.save import Saver
+from oo_tools.save import Saver # alternatively, from oo_tools import Saver
 
 class MyObj(Saver):
     name = 'foo'
 
 filepath = '/tmp/myobj.obj'
 
-myojb = MyObj
+myobj = MyObj
 myobj.name = 'bar'
 
 myobj.filepath = filepath
@@ -50,7 +50,7 @@ Say you have some complex logic that you want to implement with the potential fo
 
 ```python
 
-from oo_tools.chain import Link
+from oo_tools.chain import Link # alternatively, from oo_tools import Link
 
 class StartChain(Link):
 

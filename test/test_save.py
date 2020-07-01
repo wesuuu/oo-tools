@@ -14,6 +14,10 @@ class TestSaver(unittest.TestCase):
             os.remove(self.filepath)
         except:
             pass
+        
+    def _check_octal(self, perms):
+        stats = os.stat(self.saver.filepath)
+        assert oct(stats.st_mode)[-4:] == perms
     
     def test_set_filepath(self):
         
@@ -39,6 +43,24 @@ class TestSaver(unittest.TestCase):
         self.saver.save()
         
         assert os.path.isfile(self.filepath)
+        
+    def test_save_sets_octal(self):
+        # base case, standard usage
+        self.saver.filepath = self.filepath
+        self.saver.save('0744')
+        self._check_octal('0744')
+        
+        # supplying it as a kwarg should work too
+        self.saver.save(permissions='0777')
+        self._check_octal('0777')
+        
+        # it'll throw if its not an int
+        with self.assertRaises(AttributeError):
+            self.saver.save(permissions='badinput')
+            
+        # it'll throw if it's > 4
+        with self.assertRaises(AttributeError):
+            self.saver.save(permissions='05333')
     
     def test_load(self):
         

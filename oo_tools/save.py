@@ -1,10 +1,36 @@
 import os, pathlib, pickle
 
+def check_octal(func):
+    def wrapper(*args, **kwargs):
+        try:
+            defaults = func.__defaults__
+            if len(defaults) > 0:
+                octal = defaults[0]
+                
+            if len(args) > 1:
+                octal = args[1]
+            
+            if 'permissions' in kwargs.keys():
+                octal = kwargs['permissions']
+
+            int(octal)
+            
+            if len(octal) > 4:
+                raise AttributeError(f'Octal length must be <= 4, not = {octal}')
+            
+            return func(*args, **kwargs)
+    
+        except ValueError:
+            raise AttributeError(f'Octal permissions must be numbers, not = {octal}')
+    
+    return wrapper
+
 class Saver:
     
     """
     Save your object to a file location. Use this object as a base class for another.
     """
+
     
     @property
     def filepath(self):
@@ -41,12 +67,19 @@ class Saver:
         
         self._filepath = filepath
     
-    def save(self):
-        """save the object
+    @check_octal
+    def save(self, permissions='0644'):
+        """save the object to the path specified with .filepath
+
+        Args:
+            permissions (str, optional): Change the permissions of the save file, e.g. permissions='775'. Defaults to '0644'.
         """
         with open(self.filepath, 'wb') as f:
             pickle.dump(self.__dict__, f, 2)
             f.close()
+            
+        if permissions != '0644':
+            os.system(f'chmod {permissions} {self.filepath}')
     
     def load(self):
         """Load the object
