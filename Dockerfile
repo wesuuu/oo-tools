@@ -5,4 +5,5 @@ COPY . /opt/oo-tools
 WORKDIR /opt/oo-tools
 
 RUN python3 setup.py bdist_wheel
-RUN pip3 install dist/*.whl
+RUN pip3 install dist/*.whl \
+                 twine 
